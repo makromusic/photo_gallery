@@ -463,7 +463,10 @@ public class SwiftPhotoGalleryPlugin: NSObject, FlutterPlugin {
     let mimeType = self.extractMimeTypeFromAsset(asset: asset)
     let resource = self.extractResourceFromAsset(asset: asset)
     let size = self.extractSizeFromResource(resource: resource)
-    let orientation = self.toOrientationValue(orientation: asset.value(forKey: "orientation") as? UIImage.Orientation)
+    // Note(resultanyildizi): A temporary fix for crash on iOS 18.
+    // Note(resultanyildizi): follow the github issue here: 
+    // Note(resultanyildizi): https://github.com/Firelands128/photo_gallery/issues/80
+    // let orientation = self.toOrientationValue(orientation: asset.value(forKey: "orientation") as? UIImage.Orientation)
     return [
       "id": asset.localIdentifier,
       "filename": filename,
@@ -473,7 +476,7 @@ public class SwiftPhotoGalleryPlugin: NSObject, FlutterPlugin {
       "height": asset.pixelHeight,
       "width": asset.pixelWidth,
       "size": size,
-      "orientation": orientation,
+      "orientation": 0,
       "duration": NSInteger(asset.duration * 1000),
       "creationDate": (asset.creationDate != nil) ? NSInteger(asset.creationDate!.timeIntervalSince1970 * 1000) : nil,
       "modifiedDate": (asset.modificationDate != nil) ? NSInteger(asset.modificationDate!.timeIntervalSince1970 * 1000) : nil
