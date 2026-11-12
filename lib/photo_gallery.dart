@@ -30,6 +30,7 @@ class PhotoGallery {
     final json = await _channel.invokeMethod('listAlbums', {
       'mediumType': mediumTypeToJson(mediumType),
       'hideIfEmpty': hideIfEmpty,
+      'newest': newest,
     });
     return json
         .map<Album>((album) => Album.fromJson(album, mediumType, newest))
